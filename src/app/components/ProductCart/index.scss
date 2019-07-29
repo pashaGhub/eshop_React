@@ -42,17 +42,17 @@
     justify-content: space-between;
 
     button {
+      position: relative;
       border-radius: 3px;
       border: 1px solid #e1e1e1;
       background: transparent;
-      transition: 0.3s;
       margin: 5px;
       transition: background-color 0.3s;
       cursor: pointer;
 
       &:hover,
       &:focus {
-        background-color: #e1e1e1;
+        background: #e1e1e1;
         outline: none;
       }
     }

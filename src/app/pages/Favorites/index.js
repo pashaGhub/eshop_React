@@ -3,7 +3,14 @@ import { ProductCart } from "../../components";
 
 import "./index.scss";
 
-function Favorites({ favorites, products = [], toggleFavorite }) {
+function Favorites({
+  favorites,
+  cart,
+  products = [],
+  toggleFavorite,
+  addToCart,
+  removeFromCart
+}) {
   const favoriteProducts = products.filter(product =>
     favorites.includes(product.id)
   );
@@ -19,8 +26,17 @@ function Favorites({ favorites, products = [], toggleFavorite }) {
         </p>
       )}
       {favoriteProducts.map(data => {
+        const { count = 0 } = cart.find(({ id }) => id === data.id) || {};
+
         return (
-          <ProductCart {...data} toggleFavorite={toggleFavorite} isFavorite />
+          <ProductCart
+            {...data}
+            toggleFavorite={toggleFavorite}
+            addToCart={addToCart}
+            removeFromCart={removeFromCart}
+            isFavorite
+            cartCount={count}
+          />
         );
       })}
     </div>

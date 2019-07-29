@@ -1,5 +1,6 @@
 import React from "react";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
+import "./index.scss";
 
 import "./index.scss";
 
@@ -11,6 +12,9 @@ function ProductCart({
   currencySymbol,
   id,
   isFavorite,
+  cartCount,
+  addToCart,
+  removeFromCart,
   toggleFavorite
 }) {
   const className = isFavorite
@@ -23,7 +27,9 @@ function ProductCart({
         <img alt={`products: ${name}`} src={image} />
       </div>
       <div className="ProductCard--info">
-        <h3>{name}</h3>
+        <Link to={`/product/${id}`}>
+          <h3>{name}</h3>
+        </Link>
         <p>{description}</p>
       </div>
       <div className="ProductCard--cta">
@@ -36,13 +42,20 @@ function ProductCart({
               ️️{isFavorite ? "❌" : "❤️"}
             </span>
           </button>
-          <button
-            type="button"
-            onClick={() => console.log("Add to Cart", name)}
-          >
+          {!!cartCount && (
+            <button type="button" onClick={() => removeFromCart(id)}>
+              <span role="img" aria-label="remove from cart illustration">
+                🗑️
+              </span>
+            </button>
+          )}
+          <button type="button" onClick={() => addToCart(id)}>
             <span role="img" aria-label="add to cart illustration">
               ️️🛒
             </span>
+            {!!cartCount && (
+              <div className="ProductCard--cta-count">{cartCount}</div>
+            )}
           </button>
         </div>
       </div>

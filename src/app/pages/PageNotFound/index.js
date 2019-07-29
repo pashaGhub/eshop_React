@@ -1,5 +1,7 @@
 import React from "react";
 import "./index.scss";
+import { Link } from "react-router-dom";
+import { ROUTES } from "../../../constants";
 
 function PageNotFound() {
   return (
@@ -10,7 +12,7 @@ function PageNotFound() {
           😱
         </span>
       </p>
-      <a href="/">Go Home</a>
+      <Link to={ROUTES.defaultPage}>Go Home</Link>
     </div>
   );
 }
