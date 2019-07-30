@@ -1,47 +1,6 @@
 import React from "react";
 import "./index.scss";
-
-function Error() {
-  return (
-    <p>
-      Ohhh, no! You don't have anything in your cart{" "}
-      <span role="img" aria-label="broken heart emoji">
-        💔
-      </span>
-    </p>
-  );
-}
-
-function CartHeader() {
-  return (
-    <div className="Cart--header">
-      <label>Product:</label>
-      <label>Price:</label>
-    </div>
-  );
-}
-
-function Total({ total }) {
-  return (
-    <div className="Cart--total">
-      <label>Total:</label> {total}
-    </div>
-  );
-}
-
-function CartRow({ id, name, price, currencySymbol, count }) {
-  return (
-    <div key={id} className="Cart--item">
-      <spam>
-        {name} x {count}
-      </spam>
-      <span>
-        {price * count}
-        {currencySymbol}
-      </span>
-    </div>
-  );
-}
+import { Error, CartHeader, Total, CartRow } from "./pageParts";
 
 function Cart({ products, cart }) {
   const cartItems = cart.map(item => {
