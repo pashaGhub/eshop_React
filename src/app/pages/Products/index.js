@@ -8,9 +8,7 @@ function Products({
   error,
   favorites,
   cart,
-  toggleFavorite,
-  addToCart,
-  removeFromCart
+  ...restProps
 }) {
   return (
     <div className="Products">
@@ -21,10 +19,9 @@ function Products({
 
         return (
           <ProductCart
-            toggleFavorite={toggleFavorite}
-            addToCart={addToCart}
-            removeFromCart={removeFromCart}
+            {...restProps}
             {...data}
+            key={data.id}
             isFavorite={favorites.includes(data.id)}
             cartCount={count}
           />
