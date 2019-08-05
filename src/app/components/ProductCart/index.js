@@ -2,8 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import "./index.scss";
-
-import "./index.scss";
+import shop from "../../../shop";
 
 function ProductCart({
   name,
@@ -64,22 +63,26 @@ function ProductCart({
   );
 }
 
-function mapStateToProps(state, props) {
-  const { cart, favorites } = state.shop;
-  const item = cart.find(({ id }) => id === props.id);
+function mapStateToProps(state, { id }) {
+  const item = shop.selectors.getCartItem(state, id);
 
   return {
     cartCount: item ? item.count : 0,
-    isFavorite: favorites.includes(props.id)
+    isFavorite: shop.selectors.isFavorite(state, id)
   };
 }
 
 function mapDispatchToProps(dispatch, { id }) {
   return {
     addToCart: count =>
-      dispatch({ type: "ADD_TO_CART", payload: { id, count: count + 1 } }),
-    removeFromCart: () => dispatch({ type: "REMOVE_FROM_CART", payload: id }),
-    toggleFavorite: () => dispatch({ type: "TOGGLE_FAVORITE", payload: id })
+      dispatch({
+        type: shop.actionTypes.ADD_TO_CART,
+        payload: { id, count: count + 1 }
+      }),
+    removeFromCart: () =>
+      dispatch({ type: shop.actionTypes.REMOVE_FROM_CART, payload: id }),
+    toggleFavorite: () =>
+      dispatch({ type: shop.actionTypes.TOGGLE_FAVORITE, payload: id })
   };
 }
 

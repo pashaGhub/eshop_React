@@ -18,19 +18,20 @@ import { Layout } from "./components";
 import { useFetch } from "./hooks";
 import store from "./state";
 import { ROUTES } from "../constants";
+import shop from "../shop";
 
 function onError() {
   return "Ooops! Monkeys stole our products! 😱👟";
 }
 
 function onSuccess(payload) {
-  store.dispatch({ type: "SET_PRODUCTS", payload });
+  store.dispatch({ type: shop.actionTypes.SET_PRODUCTS, payload });
 
   return payload;
 }
 
 function App() {
-  const { loading: isLoading, products, error } = useFetch({
+  const { loading: isLoading, error } = useFetch({
     onError,
     onSuccess,
     src: "https://boiling-reaches-93648.herokuapp.com/food-shop/products",
@@ -52,19 +53,9 @@ function App() {
             <Route path={ROUTES.favorites} exact component={Favorites} />
             <Route
               path={ROUTES.product}
-              render={props => {
-                const { id } = props.match.params;
-                const product = products.find(product => product.id === id);
-                console.log("render", product, id);
-
-                return (
-                  <SingleProduct
-                    {...props}
-                    product={product}
-                    isLoadoning={isLoading}
-                  />
-                );
-              }}
+              render={props => (
+                <SingleProduct {...props} isLoadoning={isLoading} />
+              )}
             />
             <Redirect exact from={ROUTES.home} to={ROUTES.defaultPage} />
             <Route component={PageNotFound} />

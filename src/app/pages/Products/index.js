@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Loader, ProductCart } from "../../components";
 import "./index.scss";
+import shop from "../../../shop";
 
 function Products({ products = [], isLoading, error }) {
   return (
@@ -16,9 +17,7 @@ function Products({ products = [], isLoading, error }) {
 }
 
 function mapStateToPropos(state) {
-  const { products } = state.shop;
-
-  return { products };
+  return { products: shop.selectors.getProducts(state) };
 }
 
 export default connect(mapStateToPropos)(Products);

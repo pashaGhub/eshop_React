@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import "./index.scss";
 import { Error, CartHeader, Total, CartRow } from "./pageParts";
+import shop from "../../../shop";
 
 function Cart({ cart, total }) {
   return (
@@ -17,19 +18,13 @@ function Cart({ cart, total }) {
 }
 
 function mapStateToProps(state) {
-  const { cart, products } = state.shop;
-
-  const cartItems = cart.map(item => {
-    const product = products.find(({ id }) => id === item.id);
-
-    return { ...product, ...item };
-  });
-  const total = cartItems.reduce(
+  const cart = shop.selectors.getCartProducts(state);
+  const total = cart.reduce(
     (result, { price, count }) => result + Number(price) * count,
     0
   );
 
-  return { cart: cartItems, total };
+  return { cart, total };
 }
 
 export default connect(mapStateToProps)(Cart);

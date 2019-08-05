@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 import { ProductCart } from "../../components";
-
 import "./index.scss";
+import shop from "../../../shop";
 
 function Error() {
   return (
@@ -27,13 +27,10 @@ function Favorites({ favorites, ...restProps }) {
 }
 
 function mapStateToProps(state) {
-  const { products, favorites } = state.shop;
-  const favoriteProducts = products.filter(product =>
-    favorites.includes(product.id)
-  );
+  const favorites = shop.selectors.getFavoriteProducts(state);
 
   return {
-    favorites: favoriteProducts
+    favorites
   };
 }
 
