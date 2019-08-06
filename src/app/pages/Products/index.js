@@ -4,7 +4,7 @@ import { Loader, ProductCart } from "../../components";
 import "./index.scss";
 import shop from "../../../shop";
 
-function Products({ products = [], isLoading, error }) {
+function Products({ products, isLoading, error }) {
   return (
     <div className="Products">
       {isLoading && <Loader />}
@@ -16,8 +16,10 @@ function Products({ products = [], isLoading, error }) {
   );
 }
 
-function mapStateToPropos(state) {
-  return { products: shop.selectors.getProducts(state) };
-}
+const enhance = connect(state => ({
+  products: shop.selectors.getProducts(state),
+  error: shop.selectors.getProductsError(state),
+  isLoading: shop.selectors.isLoadingProducts(state)
+}));
 
-export default connect(mapStateToPropos)(Products);
+export default enhance(Products);

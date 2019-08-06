@@ -1,17 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
 import "./index.scss";
 import { ROUTES } from "../../../constants";
 import { Loader } from "../../components";
+import { usePrevious } from "../../hooks";
 import shop from "../../../shop";
 
-function SingleProduct({ history, product, isLoadoning }) {
-  if (!product && !isLoadoning) {
-    return <Redirect to={ROUTES.defaultPage} />;
-  }
+function SingleProduct({ history, product = [], isLoading, error }) {
+  const prevLoading = usePrevious(isLoading);
+  useEffect(() => {
+    if (prevLoading && !isLoading && (error || !Object.keys(product).length)) {
+      history.replace(ROUTES.defaultPage);
+    }
+  }, [error, history, isLoading, prevLoading, product]);
 
-  if (isLoadoning) {
+  if (isLoading) {
     return <Loader />;
   }
 
@@ -33,15 +36,10 @@ function SingleProduct({ history, product, isLoadoning }) {
   );
 }
 
-function mapStateToProps(
-  state,
-  {
-    match: {
-      params: { id }
-    }
-  }
-) {
-  return { product: shop.selectors.getProductById(state, id) };
-}
+const enhance = connect((state, { match: { params } }) => ({
+  product: shop.selectors.getProductById(state, params.id) || {},
+  error: shop.selectors.getProductsError(state),
+  isLoading: shop.selectors.isLoadingProducts(state)
+}));
 
-export default connect(mapStateToProps)(SingleProduct);
+export default enhance(SingleProduct);
