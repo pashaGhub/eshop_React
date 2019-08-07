@@ -1,3 +1,4 @@
+import { RSAA } from "redux-api-middleware";
 import * as types from "./actionTypes";
 import { API } from "../constants";
 
@@ -21,18 +22,30 @@ export const setProducts = payload => ({
   payload
 });
 
-export const getProducts = () => async dispatch => {
-  dispatch({ type: types.GET_PRODUCTS });
+// export const getProducts = () => async dispatch => {
+//   dispatch({ type: types.GET_PRODUCTS });
 
-  try {
-    const result = await fetch(API.getProducts);
-    const json = await result.json();
+//   try {
+//     const result = await fetch(API.getProducts);
+//     const json = await result.json();
 
-    dispatch({ type: types.GET_PRODUCTS_SUCCESS, payload: json });
-  } catch (error) {
-    dispatch({
-      type: types.GET_PRODUCTS_FAILURE,
-      payload: "Something went wrong!"
-    });
+//     dispatch({ type: types.GET_PRODUCTS_SUCCESS, payload: json });
+//   } catch (error) {
+//     dispatch({
+//       type: types.GET_PRODUCTS_FAILURE,
+//       payload: "Something went wrong!"
+//     });
+//   }
+// };
+
+export const getProducts = () => ({
+  [RSAA]: {
+    endpoint: API.getProducts,
+    method: "GET",
+    types: [
+      types.GET_PRODUCTS,
+      types.GET_PRODUCTS_SUCCESS,
+      { type: types.GET_PRODUCTS_FAILURE, payload: "Something went wrong!" }
+    ]
   }
-};
+});

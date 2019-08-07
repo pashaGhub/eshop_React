@@ -37,13 +37,13 @@ function reducer(state = INITIAL_STATE, { type, payload }) {
       if (itemIndex > -1) {
         return {
           ...state,
-          cart: state.cart.map((item, i) => (i == itemIndex ? payload : item))
+          cart: state.cart.map((item, i) => (i === itemIndex ? payload : item))
         };
       }
 
       return { ...state, cart: [...state.cart, payload] };
     case actionTypes.REMOVE_FROM_CART:
-      return { ...state, cart: state.cart.filter(({ id }) => id != payload) };
+      return { ...state, cart: state.cart.filter(({ id }) => id !== payload) };
 
     case actionTypes.TOGGLE_FAVORITE:
       return {

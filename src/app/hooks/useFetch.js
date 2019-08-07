@@ -32,7 +32,7 @@ function useFetch({
       setError: data => (onError ? setError(onError(data)) : setError(data)),
       src
     });
-  }, [onError, src]);
+  }, [onSuccess, onError, src]);
 
   return { [dataKey]: data, loading, error };
 }
