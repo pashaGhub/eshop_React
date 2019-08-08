@@ -1,5 +1,5 @@
-import React from "react";
-import { ProductCart } from "../../components";
+import React, { useContext } from "react";
+import { ProductCart, ShopContext } from "../../components";
 
 import "./index.scss";
 
@@ -14,7 +14,8 @@ function Error() {
   );
 }
 
-function Favorites({ favorites, cart, products, ...restProps }) {
+function Favorites() {
+  const { products, favorites } = useContext(ShopContext);
   const favoriteProducts = products.filter(product =>
     favorites.includes(product.id)
   );
@@ -22,19 +23,9 @@ function Favorites({ favorites, cart, products, ...restProps }) {
   return (
     <div className="Favorites">
       {!favoriteProducts.length && <Error />}
-      {favoriteProducts.map(data => {
-        const { count = 0 } = cart.find(({ id }) => id === data.id) || {};
-
-        return (
-          <ProductCart
-            {...restProps}
-            {...data}
-            key={data.id}
-            isFavorite
-            cartCount={count}
-          />
-        );
-      })}
+      {favoriteProducts.map(data => (
+        <ProductCart {...data} key={data.id} />
+      ))}
     </div>
   );
 }

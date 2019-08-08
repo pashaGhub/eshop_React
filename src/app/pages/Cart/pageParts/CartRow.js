@@ -1,5 +1,4 @@
 import React from "react";
-import { Cart } from "../..";
 
 function CartRow({ id, name, price, currencySymbol, count }) {
   return (
